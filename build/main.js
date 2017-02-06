@@ -55875,9 +55875,11 @@ var SafeResourceUrlImpl = (function (_super) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(119);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(496);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_do__ = __webpack_require__(495);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_do___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_do__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(170);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_catch__ = __webpack_require__(512);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_catch__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_do__ = __webpack_require__(495);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_do___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_do__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_http__ = __webpack_require__(170);
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return Page1; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -55893,18 +55895,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var Page1 = (function () {
     function Page1(navCtrl, http) {
         this.navCtrl = navCtrl;
         this.http = http;
-        this.searchWord = '';
+        this.searchWord = 'test';
         this.isSearch = false;
-        this.myTemplate = 'Empty';
+        this.myTemplate = '';
+        this.myJSON = { test1: "one variable", test2: "second variable" };
         this.text = 'foo';
+        this.myJSON['testAlert'] = function () {
+            alert('TESTED');
+        };
+        this.onEnter();
     }
     Page1.prototype.keyEvent = function (e) {
         var code = e.keyCode || e.which;
         if (code === 13) {
+            this.isSearch = !this.isSearch;
             if (e.target.className === "searchbar-input") {
                 e.preventDefault();
                 this.onEnter();
@@ -55912,11 +55921,20 @@ var Page1 = (function () {
         }
     };
     ;
+    Page1.prototype.edit = function () {
+        return 'https://github.com/weolopez/pages/edit/master/ionic2/' + this.searchWord + '.html';
+    };
     Page1.prototype.onEnter = function () {
         var _this = this;
+        var page = this;
         this.isSearch = false;
-        this.http.get("http://cdn.rawgit.com/weolopez/weolopez/master/src/pages/page2/page2.html")
-            .subscribe(function (html) { return _this.myTemplate = html.text(); });
+        this.http.get("https://raw.githubusercontent.com/weolopez/pages/master/ionic2/" + this.searchWord + ".html")
+            .map(function (html) { return html.text(); })
+            .do(function (html) { return console.log(html); })
+            .subscribe(function (html) { return _this.myTemplate = html; }, function (err) {
+            page.searchWord = 'new';
+            page.onEnter();
+        });
         console.log('Searching for: ' + this.searchWord);
     };
     Page1.prototype.onInput = function (e) {
@@ -55930,11 +55948,12 @@ var Page1 = (function () {
     ], Page1.prototype, "keyEvent", null);
     Page1 = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Component */])({
-            selector: 'page-page1',template:/*ion-inline-start:"C:\Users\ML5174\Documents\GitHub\weolopez\weolopez\src\pages\page1\page1.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title *ngIf="!isSearch" (click)="isSearch=true">Page One</ion-title>\n    <ion-searchbar id="search"\n                   *ngIf="isSearch"\n                   [(ngModel)]="searchWord" \n                   [showCancelButton]="shouldShowCancel" \n                   (ionInput)="onInput($event)" \n                   (ionCancel)="isSearch=false"\n                   (ionBlur)="isSearch=false;"\n                   >\n                   \n    </ion-searchbar>\n    <ion-buttons end>\n      <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <h3>Ionic Menu Starter</h3>\n  <h1>{{searchWord}}</h1>\n\n  <p>\n   {{myTemplate}}</p>\n\n  <button ion-button secondary menuToggle>Toggle Menu</button>\n\n<hr>div [innerHtml]="myTemplate"\n  <div [innerHtml]="myTemplate">\n  </div>\n\n<hr>div *dynamicComponent="myTemplate; context:\n  <div *dynamicComponent="myTemplate; context: {text: \'testing content\'};"></div>\n<hr>  \n</ion-content>'/*ion-inline-end:"C:\Users\ML5174\Documents\GitHub\weolopez\weolopez\src\pages\page1\page1.html"*/
+            selector: 'page-page1',template:/*ion-inline-start:"/Users/weolopez/github/weolopez/weolopez/src/pages/page1/page1.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title *ngIf="!isSearch" (click)="isSearch=true">{{searchWord}}</ion-title>\n    <ion-searchbar id="search"\n                   *ngIf="isSearch"\n                   [(ngModel)]="searchWord" \n                   [showCancelButton]="shouldShowCancel" \n                   (ionInput)="onInput($event)" \n                   (ionCancel)="isSearch=false"\n                   (ionBlur)="isSearch=false;"\n                   >\n                   \n    </ion-searchbar>\n    <ion-buttons end>\n      <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <div *dynamicComponent="myTemplate; context: {text: myJSON};"></div>\n  <hr>\n  <button ion-button (click)="viewSource=!viewSource">View Source</button>\n  <a [href]="edit()">edit</a>\n  <p *ngIf="viewSource"> {{myTemplate}}</p>\n<hr>  \n\n</ion-content>'/*ion-inline-end:"/Users/weolopez/github/weolopez/weolopez/src/pages/page1/page1.html"*/
         }), 
-        __metadata('design:paramtypes', [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* NavController */], __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */]])
+        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* NavController */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* NavController */]) === 'function' && _a) || Object, (typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_5__angular_http__["b" /* Http */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_5__angular_http__["b" /* Http */]) === 'function' && _b) || Object])
     ], Page1);
     return Page1;
+    var _a, _b;
 }());
 //# sourceMappingURL=page1.js.map
 
@@ -55983,7 +56002,7 @@ var Page2 = (function () {
     };
     Page2 = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Component */])({
-            selector: 'page-page2',template:/*ion-inline-start:"C:\Users\ML5174\Documents\GitHub\weolopez\weolopez\src\pages\page2\page2.html"*/'<!--ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Page Two</ion-title>\n  </ion-navbar>\n</ion-header-->\n\n<ion-content>\n  <h1>Hello World</h1>\n  <!--ion-list>\n    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">\n      <ion-icon [name]="item.icon" item-left></ion-icon>\n      {{item.title}}\n      <div class="item-note" item-right>\n        {{item.note}}\n      </div>\n    </button>\n  </ion-list>\n  <div *ngIf="selectedItem" padding>\n    You navigated here from <b>{{selectedItem.title}}</b>\n  </div-->\n</ion-content>\n'/*ion-inline-end:"C:\Users\ML5174\Documents\GitHub\weolopez\weolopez\src\pages\page2\page2.html"*/
+            selector: 'page-page2',template:/*ion-inline-start:"/Users/weolopez/github/weolopez/weolopez/src/pages/page2/page2.html"*/'<h1>Hello World</h1><button ion-button>Button</button> \n'/*ion-inline-end:"/Users/weolopez/github/weolopez/weolopez/src/pages/page2/page2.html"*/
         }), 
         __metadata('design:paramtypes', [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavParams */]])
     ], Page2);
@@ -69157,7 +69176,7 @@ var AppModule = (function () {
                     components: []
                 }),
                 __WEBPACK_IMPORTED_MODULE_8_ng_dynamic__["b" /* DynamicComponentModule */].forRoot({
-                    imports: []
+                    imports: [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["a" /* IonicModule */]]
                 })
             ],
             bootstrap: [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["b" /* IonicApp */]],
@@ -80413,7 +80432,7 @@ var MyApp = (function () {
         __metadata('design:type', __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* Nav */])
     ], MyApp.prototype, "nav", void 0);
     MyApp = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Component */])({template:/*ion-inline-start:"C:\Users\ML5174\Documents\GitHub\weolopez\weolopez\src\app\app.html"*/'<ion-menu [content]="content" side="right" persistent="true">\n  <ion-header>\n    <ion-toolbar>\n      <ion-title>Menu</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-content>\n    <ion-list>\n      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">\n        {{p.title}}\n      </button>\n    </ion-list>\n  </ion-content>\n\n</ion-menu>\n\n<!-- Disable swipe-to-go-back because it\'s poor UX to combine STGB with side menus -->\n<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>'/*ion-inline-end:"C:\Users\ML5174\Documents\GitHub\weolopez\weolopez\src\app\app.html"*/
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Component */])({template:/*ion-inline-start:"/Users/weolopez/github/weolopez/weolopez/src/app/app.html"*/'<ion-menu [content]="content" side="right" persistent="true">\n  <ion-header>\n    <ion-toolbar>\n      <ion-title>Menu</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-content>\n    <ion-list>\n      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">\n        {{p.title}}\n      </button>\n    </ion-list>\n  </ion-content>\n\n</ion-menu>\n\n<!-- Disable swipe-to-go-back because it\'s poor UX to combine STGB with side menus -->\n<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>'/*ion-inline-end:"/Users/weolopez/github/weolopez/weolopez/src/app/app.html"*/
         }), 
         __metadata('design:paramtypes', [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* Platform */]])
     ], MyApp);
@@ -88260,6 +88279,297 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__angular_core__["a" /* enableProdMode */])();
 __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])(__WEBPACK_IMPORTED_MODULE_1__angular_compiler__["a" /* COMPILER_PROVIDERS */].slice()).bootstrapModule(__WEBPACK_IMPORTED_MODULE_3__app_module__["a" /* AppModule */]);
 //# sourceMappingURL=main.js.map
+
+/***/ },
+/* 510 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Subscriber_1 = __webpack_require__(122);
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var InnerSubscriber = (function (_super) {
+    __extends(InnerSubscriber, _super);
+    function InnerSubscriber(parent, outerValue, outerIndex) {
+        _super.call(this);
+        this.parent = parent;
+        this.outerValue = outerValue;
+        this.outerIndex = outerIndex;
+        this.index = 0;
+    }
+    InnerSubscriber.prototype._next = function (value) {
+        this.parent.notifyNext(this.outerValue, value, this.outerIndex, this.index++, this);
+    };
+    InnerSubscriber.prototype._error = function (error) {
+        this.parent.notifyError(error, this);
+        this.unsubscribe();
+    };
+    InnerSubscriber.prototype._complete = function () {
+        this.parent.notifyComplete(this);
+        this.unsubscribe();
+    };
+    return InnerSubscriber;
+}(Subscriber_1.Subscriber));
+exports.InnerSubscriber = InnerSubscriber;
+//# sourceMappingURL=InnerSubscriber.js.map
+
+/***/ },
+/* 511 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Subscriber_1 = __webpack_require__(122);
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var OuterSubscriber = (function (_super) {
+    __extends(OuterSubscriber, _super);
+    function OuterSubscriber() {
+        _super.apply(this, arguments);
+    }
+    OuterSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        this.destination.next(innerValue);
+    };
+    OuterSubscriber.prototype.notifyError = function (error, innerSub) {
+        this.destination.error(error);
+    };
+    OuterSubscriber.prototype.notifyComplete = function (innerSub) {
+        this.destination.complete();
+    };
+    return OuterSubscriber;
+}(Subscriber_1.Subscriber));
+exports.OuterSubscriber = OuterSubscriber;
+//# sourceMappingURL=OuterSubscriber.js.map
+
+/***/ },
+/* 512 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__(45);
+var catch_1 = __webpack_require__(513);
+Observable_1.Observable.prototype.catch = catch_1._catch;
+Observable_1.Observable.prototype._catch = catch_1._catch;
+//# sourceMappingURL=catch.js.map
+
+/***/ },
+/* 513 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var OuterSubscriber_1 = __webpack_require__(511);
+var subscribeToResult_1 = __webpack_require__(516);
+/**
+ * Catches errors on the observable to be handled by returning a new observable or throwing an error.
+ * @param {function} selector a function that takes as arguments `err`, which is the error, and `caught`, which
+ *  is the source observable, in case you'd like to "retry" that observable by returning it again. Whatever observable
+ *  is returned by the `selector` will be used to continue the observable chain.
+ * @return {Observable} an observable that originates from either the source or the observable returned by the
+ *  catch `selector` function.
+ * @method catch
+ * @owner Observable
+ */
+function _catch(selector) {
+    var operator = new CatchOperator(selector);
+    var caught = this.lift(operator);
+    return (operator.caught = caught);
+}
+exports._catch = _catch;
+var CatchOperator = (function () {
+    function CatchOperator(selector) {
+        this.selector = selector;
+    }
+    CatchOperator.prototype.call = function (subscriber, source) {
+        return source._subscribe(new CatchSubscriber(subscriber, this.selector, this.caught));
+    };
+    return CatchOperator;
+}());
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var CatchSubscriber = (function (_super) {
+    __extends(CatchSubscriber, _super);
+    function CatchSubscriber(destination, selector, caught) {
+        _super.call(this, destination);
+        this.selector = selector;
+        this.caught = caught;
+    }
+    // NOTE: overriding `error` instead of `_error` because we don't want
+    // to have this flag this subscriber as `isStopped`.
+    CatchSubscriber.prototype.error = function (err) {
+        if (!this.isStopped) {
+            var result = void 0;
+            try {
+                result = this.selector(err, this.caught);
+            }
+            catch (err) {
+                this.destination.error(err);
+                return;
+            }
+            this.unsubscribe();
+            this.destination.remove(this);
+            subscribeToResult_1.subscribeToResult(this, result);
+        }
+    };
+    return CatchSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+//# sourceMappingURL=catch.js.map
+
+/***/ },
+/* 514 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var root_1 = __webpack_require__(83);
+var Symbol = root_1.root.Symbol;
+if (typeof Symbol === 'function') {
+    if (Symbol.iterator) {
+        exports.$$iterator = Symbol.iterator;
+    }
+    else if (typeof Symbol.for === 'function') {
+        exports.$$iterator = Symbol.for('iterator');
+    }
+}
+else {
+    if (root_1.root.Set && typeof new root_1.root.Set()['@@iterator'] === 'function') {
+        // Bug for mozilla version
+        exports.$$iterator = '@@iterator';
+    }
+    else if (root_1.root.Map) {
+        // es6-shim specific logic
+        var keys = Object.getOwnPropertyNames(root_1.root.Map.prototype);
+        for (var i = 0; i < keys.length; ++i) {
+            var key = keys[i];
+            if (key !== 'entries' && key !== 'size' && root_1.root.Map.prototype[key] === root_1.root.Map.prototype['entries']) {
+                exports.$$iterator = key;
+                break;
+            }
+        }
+    }
+    else {
+        exports.$$iterator = '@@iterator';
+    }
+}
+//# sourceMappingURL=iterator.js.map
+
+/***/ },
+/* 515 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function isPromise(value) {
+    return value && typeof value.subscribe !== 'function' && typeof value.then === 'function';
+}
+exports.isPromise = isPromise;
+//# sourceMappingURL=isPromise.js.map
+
+/***/ },
+/* 516 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var root_1 = __webpack_require__(83);
+var isArray_1 = __webpack_require__(505);
+var isPromise_1 = __webpack_require__(515);
+var Observable_1 = __webpack_require__(45);
+var iterator_1 = __webpack_require__(514);
+var InnerSubscriber_1 = __webpack_require__(510);
+var observable_1 = __webpack_require__(502);
+function subscribeToResult(outerSubscriber, result, outerValue, outerIndex) {
+    var destination = new InnerSubscriber_1.InnerSubscriber(outerSubscriber, outerValue, outerIndex);
+    if (destination.closed) {
+        return null;
+    }
+    if (result instanceof Observable_1.Observable) {
+        if (result._isScalar) {
+            destination.next(result.value);
+            destination.complete();
+            return null;
+        }
+        else {
+            return result.subscribe(destination);
+        }
+    }
+    if (isArray_1.isArray(result)) {
+        for (var i = 0, len = result.length; i < len && !destination.closed; i++) {
+            destination.next(result[i]);
+        }
+        if (!destination.closed) {
+            destination.complete();
+        }
+    }
+    else if (isPromise_1.isPromise(result)) {
+        result.then(function (value) {
+            if (!destination.closed) {
+                destination.next(value);
+                destination.complete();
+            }
+        }, function (err) { return destination.error(err); })
+            .then(null, function (err) {
+            // Escaping the Promise trap: globally throw unhandled errors
+            root_1.root.setTimeout(function () { throw err; });
+        });
+        return destination;
+    }
+    else if (typeof result[iterator_1.$$iterator] === 'function') {
+        var iterator = result[iterator_1.$$iterator]();
+        do {
+            var item = iterator.next();
+            if (item.done) {
+                destination.complete();
+                break;
+            }
+            destination.next(item.value);
+            if (destination.closed) {
+                break;
+            }
+        } while (true);
+    }
+    else if (typeof result[observable_1.$$observable] === 'function') {
+        var obs = result[observable_1.$$observable]();
+        if (typeof obs.subscribe !== 'function') {
+            destination.error(new Error('invalid observable'));
+        }
+        else {
+            return obs.subscribe(new InnerSubscriber_1.InnerSubscriber(outerSubscriber, outerValue, outerIndex));
+        }
+    }
+    else {
+        destination.error(new TypeError('unknown type returned'));
+    }
+    return null;
+}
+exports.subscribeToResult = subscribeToResult;
+//# sourceMappingURL=subscribeToResult.js.map
 
 /***/ }
 /******/ ]);
