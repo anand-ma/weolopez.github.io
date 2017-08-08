@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>My Stuff</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card *ngFor="let item of items | async">
+    <img [src]="'data:image/png;base64,' + item.imageData" />
+    <ion-card-content>
+      <ion-list no-lines>
+        <ion-list-header>
+          Labels
+        </ion-list-header>
+        <ion-item *ngFor="let label of item.results[0].labelAnnotations">{{label.description}}</ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  <button id="camerabtn" ion-fab><ion-icon name="camera"></ion-icon></button>
+  <ion-item *ngIf="!apikey">
+    <ion-label floating>Enter API Key</ion-label>
+    <ion-input type="text" #keyContainer></ion-input>
+  </ion-item>
+
+  <input #camera id="cameraInput" class="file-input" type="file" capture="camera" accept="image/*" name="cameraInput" (change)="takePhoto(keyContainer, camera, image)">
+  <img #image>
+</ion-content>

@@ -1,0 +1,17 @@
+page-home {
+    #camerabtn{
+        position: absolute;
+        bottom: 6px;
+        right: 8px;
+        z-index: 5;
+    }
+    #cameraInput {
+        position: absolute;
+        bottom: 6px;
+        right: 8px;
+        width: 60px;
+        height: 60px;
+        opacity: 0;
+        z-index: 10;
+    }
+}
