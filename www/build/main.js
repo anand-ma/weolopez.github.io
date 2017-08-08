@@ -60,18 +60,19 @@ var HomePage = (function () {
         this.apikey = localStorage.getItem('apikey');
         console.dir(this.apikey);
     }
-    HomePage.prototype.takePhoto = function (keyContainer, camera, image) {
+    HomePage.prototype.takePhoto = function (camera, image) {
         var _this = this;
         var home = this;
-        if (keyContainer)
-            localStorage.setItem('apikey', keyContainer);
+        if (home.apikey) {
+            localStorage.setItem('apikey', home.apikey);
+        }
         var file = camera.files[0];
         var fileReader = new FileReader();
         fileReader.onloadend = function (event) {
             image.src = fileReader.result;
             console.log(fileReader.result);
             _this.vision.getLabels(home.apikey, fileReader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, "")).subscribe(function (result) {
-                _this.saveResults(image.src, result.json().responses);
+                //   this.saveResults(image.src, result.json().responses);
             }, function (err) {
                 _this.showAlert(err);
             });
@@ -116,7 +117,7 @@ var HomePage = (function () {
 }());
 HomePage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-home',template:/*ion-inline-start:"C:\Users\weolo\Documents\github\weolopez\weolopez.github.io\src\pages\home\home.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>My Stuff</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <ion-card *ngFor="let item of items | async">\n    <img [src]="\'data:image/png;base64,\' + item.imageData" />\n    <ion-card-content>\n      <ion-list no-lines>\n        <ion-list-header>\n          Labels\n        </ion-list-header>\n        <ion-item *ngFor="let label of item.results[0].labelAnnotations">{{label.description}}</ion-item>\n      </ion-list>\n    </ion-card-content>\n  </ion-card>\n  <button id="camerabtn" ion-fab><ion-icon name="camera"></ion-icon></button>\n  <ion-item *ngIf="!apikey">\n    <ion-label floating>Enter API Key</ion-label>\n    <ion-input type="text" #keyinput></ion-input>\n  </ion-item>\n\n  <input #camera id="cameraInput" class="file-input" type="file" capture="camera" accept="image/*" name="cameraInput" (change)="takePhoto(keyinput, camera, image)">\n  <img #image>\n</ion-content>'/*ion-inline-end:"C:\Users\weolo\Documents\github\weolopez\weolopez.github.io\src\pages\home\home.html"*/
+        selector: 'page-home',template:/*ion-inline-start:"C:\Users\weolo\Documents\github\weolopez\weolopez.github.io\src\pages\home\home.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>My Stuff</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <ion-card *ngFor="let item of items | async">\n    <img [src]="item.imageData" />\n    <ion-card-content>\n      <ion-list no-lines>\n        <ion-list-header>\n          Labels\n        </ion-list-header>\n        <ion-item *ngFor="let label of item.results[0].labelAnnotations">{{label.description}}</ion-item>\n      </ion-list>\n    </ion-card-content>\n  </ion-card>\n  <button id="camerabtn" ion-fab><ion-icon name="camera"></ion-icon></button>\n  <ion-item *ngIf="!apikey">\n    <ion-label floating>Enter API Key</ion-label>\n    <ion-input type="text" [value]="apikey"></ion-input>\n  </ion-item>\n\n  <input #camera id="cameraInput" class="file-input" type="file" capture="camera" accept="image/*" name="cameraInput" (change)="takePhoto(camera, image)">\n  <img #image>\n</ion-content>'/*ion-inline-end:"C:\Users\weolo\Documents\github\weolopez\weolopez.github.io\src\pages\home\home.html"*/
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ionic_native_camera__["a" /* Camera */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ionic_native_camera__["a" /* Camera */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__providers_google_cloud_vision_service_google_cloud_vision_service__["a" /* GoogleCloudVisionServiceProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_google_cloud_vision_service_google_cloud_vision_service__["a" /* GoogleCloudVisionServiceProvider */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4_angularfire2_database__["a" /* AngularFireDatabase */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4_angularfire2_database__["a" /* AngularFireDatabase */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _d || Object])
 ], HomePage);

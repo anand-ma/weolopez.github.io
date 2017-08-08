@@ -22,9 +22,11 @@ export class HomePage {
     console.dir(this.apikey);
   }
 
-  takePhoto(keyContainer, camera, image) {
+  takePhoto(camera, image) {
     const home = this;
-    if (keyContainer) localStorage.setItem('apikey', keyContainer)
+    if (home.apikey) {
+      localStorage.setItem('apikey', home.apikey);
+    }
     
     const file = camera.files[0];
 
@@ -34,7 +36,7 @@ export class HomePage {
       image.src = fileReader.result;
       console.log(fileReader.result);
       this.vision.getLabels(home.apikey, fileReader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, "")).subscribe((result) => {
-        this.saveResults(image.src, result.json().responses);
+     //   this.saveResults(image.src, result.json().responses);
       }, err => {
         this.showAlert(err);
       });

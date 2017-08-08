@@ -6,7 +6,7 @@
 
 <ion-content padding>
   <ion-card *ngFor="let item of items | async">
-    <img [src]="'data:image/png;base64,' + item.imageData" />
+    <img [src]="item.imageData" />
     <ion-card-content>
       <ion-list no-lines>
         <ion-list-header>
@@ -19,9 +19,9 @@
   <button id="camerabtn" ion-fab><ion-icon name="camera"></ion-icon></button>
   <ion-item *ngIf="!apikey">
     <ion-label floating>Enter API Key</ion-label>
-    <ion-input type="text" #keyinput></ion-input>
+    <ion-input type="text" [value]="apikey"></ion-input>
   </ion-item>
 
-  <input #camera id="cameraInput" class="file-input" type="file" capture="camera" accept="image/*" name="cameraInput" (change)="takePhoto(keyinput, camera, image)">
+  <input #camera id="cameraInput" class="file-input" type="file" capture="camera" accept="image/*" name="cameraInput" (change)="takePhoto(camera, image)">
   <img #image>
 </ion-content>
