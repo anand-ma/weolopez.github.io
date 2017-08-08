@@ -62,9 +62,9 @@ var HomePage = (function () {
     }
     HomePage.prototype.takePhoto = function (keyContainer, camera, image) {
         var _this = this;
+        var home = this;
         if (keyContainer.value.length > 5)
             localStorage.setItem('apikey', keyContainer.value);
-        var home = this;
         var file = camera.files[0];
         var fileReader = new FileReader();
         fileReader.onloadend = function (event) {
@@ -116,12 +116,14 @@ var HomePage = (function () {
 }());
 HomePage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-home',template:/*ion-inline-start:"C:\Users\weolo\Documents\github\my-stuff\src\pages\home\home.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>My Stuff</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <ion-card *ngFor="let item of items | async">\n    <img [src]="\'data:image/png;base64,\' + item.imageData" />\n    <ion-card-content>\n      <ion-list no-lines>\n        <ion-list-header>\n          Labels\n        </ion-list-header>\n        <ion-item *ngFor="let label of item.results[0].labelAnnotations">{{label.description}}</ion-item>\n      </ion-list>\n    </ion-card-content>\n  </ion-card>\n  <button id="camerabtn" ion-fab><ion-icon name="camera"></ion-icon></button>\n  <ion-item *ngIf="!apikey">\n    <ion-label floating>Enter API Key</ion-label>\n    <ion-input type="text" #keyContainer></ion-input>\n  </ion-item>\n\n  <input #camera id="cameraInput" class="file-input" type="file" capture="camera" accept="image/*" name="cameraInput" (change)="takePhoto(apikey, camera, image)">\n  <img #image>\n</ion-content>'/*ion-inline-end:"C:\Users\weolo\Documents\github\my-stuff\src\pages\home\home.html"*/
+        selector: 'page-home',template:/*ion-inline-start:"C:\Users\weolo\Documents\github\my-stuff\src\pages\home\home.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>My Stuff</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <ion-card *ngFor="let item of items | async">\n    <img [src]="\'data:image/png;base64,\' + item.imageData" />\n    <ion-card-content>\n      <ion-list no-lines>\n        <ion-list-header>\n          Labels\n        </ion-list-header>\n        <ion-item *ngFor="let label of item.results[0].labelAnnotations">{{label.description}}</ion-item>\n      </ion-list>\n    </ion-card-content>\n  </ion-card>\n  <button id="camerabtn" ion-fab><ion-icon name="camera"></ion-icon></button>\n  <ion-item *ngIf="!apikey">\n    <ion-label floating>Enter API Key</ion-label>\n    <ion-input type="text" #keyContainer></ion-input>\n  </ion-item>\n\n  <input #camera id="cameraInput" class="file-input" type="file" capture="camera" accept="image/*" name="cameraInput" (change)="takePhoto(keyContainer, camera, image)">\n  <img #image>\n</ion-content>'/*ion-inline-end:"C:\Users\weolo\Documents\github\my-stuff\src\pages\home\home.html"*/
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ionic_native_camera__["a" /* Camera */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ionic_native_camera__["a" /* Camera */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__providers_google_cloud_vision_service_google_cloud_vision_service__["a" /* GoogleCloudVisionServiceProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_google_cloud_vision_service_google_cloud_vision_service__["a" /* GoogleCloudVisionServiceProvider */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4_angularfire2_database__["a" /* AngularFireDatabase */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4_angularfire2_database__["a" /* AngularFireDatabase */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _d || Object])
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__ionic_native_camera__["a" /* Camera */],
+        __WEBPACK_IMPORTED_MODULE_3__providers_google_cloud_vision_service_google_cloud_vision_service__["a" /* GoogleCloudVisionServiceProvider */],
+        __WEBPACK_IMPORTED_MODULE_4_angularfire2_database__["a" /* AngularFireDatabase */],
+        __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]])
 ], HomePage);
 
-var _a, _b, _c, _d;
 //# sourceMappingURL=home.js.map
 
 /***/ }),
@@ -133,7 +135,7 @@ var _a, _b, _c, _d;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GoogleCloudVisionServiceProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(147);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(404);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(403);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -172,10 +174,9 @@ var GoogleCloudVisionServiceProvider = (function () {
 }());
 GoogleCloudVisionServiceProvider = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]])
 ], GoogleCloudVisionServiceProvider);
 
-var _a;
 //# sourceMappingURL=google-cloud-vision-service.js.map
 
 /***/ }),
@@ -184,29 +185,9 @@ var _a;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
-var environment = {
-    firebaseConfig: {
-        apiKey: "AIzaSyCUjquyAUW0l6LLuyxO0WAr5KOhIplaCjs",
-        authDomain: "wiki-96483.firebaseapp.com",
-        databaseURL: "https://wiki-96483.firebaseio.com",
-        projectId: "wiki-96483",
-        storageBucket: "wiki-96483.appspot.com",
-        messagingSenderId: "1039322342866"
-    },
-    googleCloudVisionAPIKey: ""
-};
-//# sourceMappingURL=environment.js.map
-
-/***/ }),
-
-/***/ 274:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(275);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(291);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(274);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(290);
 
 
 Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_1__app_module__["a" /* AppModule */]);
@@ -214,7 +195,7 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 
 /***/ }),
 
-/***/ 291:
+/***/ 290:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -226,12 +207,12 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_splash_screen__ = __webpack_require__(228);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_status_bar__ = __webpack_require__(230);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__ = __webpack_require__(231);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_angularfire2__ = __webpack_require__(339);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_angularfire2__ = __webpack_require__(338);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_angularfire2_database__ = __webpack_require__(235);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_angularfire2_auth__ = __webpack_require__(401);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__app_component__ = __webpack_require__(403);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_angularfire2_auth__ = __webpack_require__(400);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__app_component__ = __webpack_require__(402);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_home_home__ = __webpack_require__(271);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__environment__ = __webpack_require__(273);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__environment__ = __webpack_require__(404);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__providers_google_cloud_vision_service_google_cloud_vision_service__ = __webpack_require__(272);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -291,7 +272,7 @@ AppModule = __decorate([
 
 /***/ }),
 
-/***/ 403:
+/***/ 402:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -335,7 +316,27 @@ MyApp = __decorate([
 
 //# sourceMappingURL=app.component.js.map
 
+/***/ }),
+
+/***/ 404:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
+var environment = {
+    firebaseConfig: {
+        apiKey: "AIzaSyCUjquyAUW0l6LLuyxO0WAr5KOhIplaCjs",
+        authDomain: "wiki-96483.firebaseapp.com",
+        databaseURL: "https://wiki-96483.firebaseio.com",
+        projectId: "wiki-96483",
+        storageBucket: "wiki-96483.appspot.com",
+        messagingSenderId: "1039322342866"
+    },
+    googleCloudVisionAPIKey: ""
+};
+//# sourceMappingURL=environment.js.map
+
 /***/ })
 
-},[274]);
+},[273]);
 //# sourceMappingURL=main.js.map
