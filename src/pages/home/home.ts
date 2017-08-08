@@ -24,8 +24,8 @@ export class HomePage {
 
   takePhoto(keyContainer, camera, image) {
     const home = this;
-    if (keyContainer.value.length > 5) localStorage.setItem('apikey', keyContainer.value)
-
+    if (keyContainer) localStorage.setItem('apikey', keyContainer)
+    
     const file = camera.files[0];
 
     let fileReader = new FileReader();
@@ -33,7 +33,7 @@ export class HomePage {
     fileReader.onloadend = (event) => {
       image.src = fileReader.result;
       console.log(fileReader.result);
-      this.vision.getLabels(home.apikey, fileReader.result).subscribe((result) => {
+      this.vision.getLabels(home.apikey, fileReader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, "")).subscribe((result) => {
         this.saveResults(image.src, result.json().responses);
       }, err => {
         this.showAlert(err);
@@ -79,5 +79,4 @@ export class HomePage {
     });
     alert.present();
   }
-
 }

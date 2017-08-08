@@ -19,9 +19,9 @@
   <button id="camerabtn" ion-fab><ion-icon name="camera"></ion-icon></button>
   <ion-item *ngIf="!apikey">
     <ion-label floating>Enter API Key</ion-label>
-    <ion-input type="text" #keyContainer></ion-input>
+    <ion-input type="text" #keyinput></ion-input>
   </ion-item>
 
-  <input #camera id="cameraInput" class="file-input" type="file" capture="camera" accept="image/*" name="cameraInput" (change)="takePhoto(keyContainer, camera, image)">
+  <input #camera id="cameraInput" class="file-input" type="file" capture="camera" accept="image/*" name="cameraInput" (change)="takePhoto(keyinput, camera, image)">
   <img #image>
 </ion-content>
